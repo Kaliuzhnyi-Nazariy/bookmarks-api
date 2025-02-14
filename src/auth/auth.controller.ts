@@ -1,5 +1,12 @@
-import { Controller, Post } from '@nestjs/common';
+// eslint-disable-next-line prettier/prettier
+import {
+  Body,
+  Controller,
+  HttpCode,
+  Post,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { AuthDto } from './dtos';
 
 // we can add in (router way)
 
@@ -9,13 +16,15 @@ export class AuthController {
 
   //the route will be .../auth/signup
   @Post('signup')
-  signup() {
-    return 'I am signed up!';
+  //this way we can take body of request no matter the framework/libs is used
+  signup(@Body() dto: AuthDto) {
+    return this.authService.signup(dto);
   }
 
   // The route will be ../auth/signin
+  @HttpCode(200)
   @Post('signin')
-  signin() {
-    return 'I am signed in!';
+  signin(@Body() dto: AuthDto) {
+    return this.authService.signin(dto);
   }
 }
